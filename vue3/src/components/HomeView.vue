@@ -5,6 +5,7 @@
     <div class="row gap-4">
       <CButton v-if="!exampleMapId" @click="startMap"> CreateMap </CButton>
       <CButton @click="addMarker"> AddMarker </CButton>
+      <CButton @click="addCluster"> AddCluster </CButton>
       <CButton @click="moveCamera"> MoveCamera </CButton>
     </div>
   </div>
@@ -58,7 +59,7 @@ const startMap = async () => {
           latitude: -33.86,
           longitude: 151.2,
         },
-        zoom: 12,
+        zoom: 3,
       },
       preferences: {
         appearance: {
@@ -123,9 +124,16 @@ const addMarker = async () => {
 
   const result = await CapacitorGoogleMaps.addMarker({
     mapId: exampleMapId.value,
+    icon: {
+      url: 'https://www.google.com/favicon.ico',
+      targetSizePx: {
+        width: 64,
+        height: 64
+      }
+    },
     position: {
-      latitude: -getRandomArbitrary(33, 34),
-      longitude: getRandomArbitrary(151, 152),
+      latitude: -33.86,
+      longitude: 151.2,
     },
     preferences: {
       title: 'Some title',
@@ -139,6 +147,139 @@ const addMarker = async () => {
   alert('marker created: ' + JSON.stringify(result, null, 1));
 };
 
+const addCluster = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+
+  const result = await CapacitorGoogleMaps.addCluster({
+    mapId: exampleMapId.value,
+    markers: [
+      {
+        position: {
+          latitude: -33.86,
+          longitude: 151.2,
+        },
+        preferences: {
+          title: 'Google',
+          snippet: 'Some snippet',
+          metadata: {
+            some: 'data',
+          },
+        },
+        icon: {
+          url: 'https://www.google.com/favicon.ico',
+          targetSizePx: {
+            width: 64,
+            height: 64
+          }
+        },
+      },
+      {
+        position: {
+          latitude: -33.86,
+          longitude: 151.201,
+        },
+        preferences: {
+          title: 'Instagram',
+          snippet: 'Some snippet',
+          metadata: {
+            some: 'data',
+          },
+        },
+        icon: {
+          url: 'https://www.instagram.com/favicon.ico',
+          targetSizePx: {
+            width: 64,
+            height: 64
+          }
+        },
+      },
+      {
+        position: {
+          latitude: -33.861,
+          longitude: 151.201,
+        },
+        preferences: {
+          title: 'Facebook',
+          snippet: 'Some snippet',
+          metadata: {
+            some: 'data',
+          },
+        },
+        icon: {
+          url: 'https://www.facebook.com/favicon.ico',
+          targetSizePx: {
+            width: 64,
+            height: 64
+          }
+        },
+      },
+      {
+        position: {
+          latitude: 53.958332,
+          longitude: -1.080278,
+        },
+        preferences: {
+          title: 'BBC',
+          snippet: 'TV company',
+          metadata: {
+            some: 'data',
+          },
+        },
+        icon: {
+          url: 'https://www.bbc.com/favicon.ico',
+          targetSizePx: {
+            width: 64,
+            height: 64
+          }
+        },
+      },
+      {
+        position: {
+          latitude: 52.192001,
+          longitude: -2.220000,
+        },
+        preferences: {
+          title: 'The Guardian',
+          snippet: 'News',
+          metadata: {
+            some: 'data',
+          },
+        },
+        icon: {
+          url: 'https://www.theguardian.com/favicon.ico',
+          targetSizePx: {
+            width: 64,
+            height: 64
+          }
+        },
+      },
+    ],
+    clusterIcon: {
+      url: 'http://172.16.0.114/point-of-interest.svg',
+      targetSizePx: {
+        width: 128,
+        height: 128
+      }
+    },
+    clusterCaptionPrefs: {
+      padding: {
+        left: 2,
+        right: 2,
+        bottom: 8
+      },
+      textSize: 16,
+      textColor: "#0000FF"
+    }
+  });
+
+  alert('marker created: ' + JSON.stringify(result, null, 1));
+};
+
+
+
+
 const moveCamera = async () => {
   if (!exampleMapId.value) {
     return;
@@ -151,7 +292,7 @@ const moveCamera = async () => {
         latitude: -33.86,
         longitude: 151.2,
       },
-      zoom: 0,
+      zoom: 12,
     },
     duration: 1000,
   });
