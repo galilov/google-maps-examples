@@ -5,8 +5,10 @@
     <div class="row gap-4">
       <CButton v-if="!exampleMapId" @click="startMap"> CreateMap </CButton>
       <CButton @click="addMarker"> AddMarker </CButton>
+      <CButton @click="removeMarker"> RemoveMarker </CButton>
       <CButton @click="addCluster"> AddCluster </CButton>
-      <CButton @click="moveCamera"> MoveCamera </CButton>
+      <CButton @click="addPolygon"> AddPolygon </CButton>
+      <CButton @click="removePolygon"> RemovePolygon </CButton>
     </div>
   </div>
 </template>
@@ -19,6 +21,9 @@ import CButton from './CButton.vue';
 
 const exampleMapId = ref<string | null>(null);
 const exampleMap = ref<InstanceType<typeof HTMLElement> | null>(null);
+
+var markerId = "";
+var polygonId = "";
 
 const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
@@ -117,6 +122,17 @@ const startMap = async () => {
   }
 };
 
+const removeMarker = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+
+  const result = await CapacitorGoogleMaps.removeMarker({
+    mapId: exampleMapId.value,
+    markerId: markerId
+  });
+};
+
 const addMarker = async () => {
   if (!exampleMapId.value) {
     return;
@@ -143,7 +159,7 @@ const addMarker = async () => {
       },
     },
   });
-
+  markerId = result.marker.markerId;
   alert('marker created: ' + JSON.stringify(result, null, 1));
 };
 
@@ -243,6 +259,7 @@ const addCluster = async () => {
         preferences: {
           title: 'The Guardian',
           snippet: 'News',
+          anchor: {x: 0.5, y: 0.5},
           metadata: {
             some: 'data',
           },
@@ -250,8 +267,8 @@ const addCluster = async () => {
         icon: {
           url: 'https://www.theguardian.com/favicon.ico',
           targetSizePx: {
-            width: 64,
-            height: 64
+            width: 128,
+            height: 128
           }
         },
       },
@@ -274,11 +291,58 @@ const addCluster = async () => {
     }
   });
 
-  alert('marker created: ' + JSON.stringify(result, null, 1));
+  alert('cluster created: ' + JSON.stringify(result, null, 1));
 };
 
+const addPolygon = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
 
+  const result = await CapacitorGoogleMaps.addPolygon({
+    mapId: exampleMapId.value,
+    points: [
+      {latitude: 52.36545, longitude: 4.70995},
+      {latitude: 52.36377, longitude: 4.71648},
+      {latitude: 52.36262, longitude: 4.71510},
+      {latitude: 52.33483, longitude: 4.71322},
+      {latitude: 52.32801, longitude: 4.71407},
+      {latitude: 52.32549, longitude: 4.71047},
+      {latitude: 52.32570, longitude: 4.70583},
+    ],
+    preferences: {
+      holes: [
+        [
+          {latitude: 52.33752147380871, longitude: 4.709846874581462},
+          {latitude: 52.334971943107575, longitude: 4.71180417415214},
+          {latitude: 52.33342361091616, longitude: 4.710059294689908},
+        ],
+        [
+          {latitude: 52.32817731200254, longitude: 4.708302710330382},
+          {latitude: 52.32827088058939, longitude: 4.7093999677920895},
+          {latitude: 52.32696090236376, longitude: 4.709221344484369},
+          {latitude: 52.3271792347618, longitude: 4.70814960463805},
+        ],
+      ],
+      strokePattern: [{pattern: 'Dash', length: 20}, {pattern: 'Gap', length: 20},],
+      strokeWidth: 3,
+      metadata: {someText: 'Hello'}
+    }
+  });
+  polygonId = result.polygon.polygonId;
+  alert('polygon created: ' + JSON.stringify(result, null, 1));
+};
 
+const removePolygon = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+  const result = await CapacitorGoogleMaps.removePolygon({
+    mapId: exampleMapId.value,
+    polygonId: polygonId
+  });
+  alert('polygon removed: ' + JSON.stringify(result, null, 1));
+}
 
 const moveCamera = async () => {
   if (!exampleMapId.value) {
