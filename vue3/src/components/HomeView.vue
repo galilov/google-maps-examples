@@ -107,6 +107,15 @@ const startMap = async () => {
       }
     );
 
+      CapacitorGoogleMaps.didTapPolygon(
+      {
+        mapId: exampleMapId.value,
+      },
+      (result) => {
+        alert('didTapPolygon: ' + JSON.stringify(result, null, 1));
+      }
+    );
+
     CapacitorGoogleMaps.didEndMovingCamera(
       {
         mapId: exampleMapId.value,
@@ -311,6 +320,7 @@ const addPolygon = async () => {
       {latitude: 52.32570, longitude: 4.70583},
     ],
     preferences: {
+      isClickable: true,
       holes: [
         [
           {latitude: 52.33752147380871, longitude: 4.709846874581462},
