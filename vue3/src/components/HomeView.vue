@@ -4,11 +4,13 @@
 
     <div class="row gap-4">
       <CButton v-if="!exampleMapId" @click="startMap"> CreateMap </CButton>
-      <CButton @click="addMarker"> AddMarker </CButton>
-      <CButton @click="removeMarker"> RemoveMarker </CButton>
-      <CButton @click="addCluster"> AddCluster </CButton>
-      <CButton @click="addPolygon"> AddPolygon </CButton>
-      <CButton @click="removePolygon"> RemovePolygon </CButton>
+      <CButton @click="addMarker">AddMarker</CButton>
+      <CButton @click="removeMarker">RemoveMarker</CButton>
+      <CButton @click="addCluster">AddCluster</CButton>
+      <CButton @click="addPolygon">AddPolygon</CButton>
+      <CButton @click="updatePolygon">UpdatePolygon</CButton>
+      <CButton @click="removePolygon">RemovePolygon</CButton>
+      <CButton @click="getPolygon">GetPolygon</CButton>
     </div>
   </div>
 </template>
@@ -343,6 +345,24 @@ const addPolygon = async () => {
   alert('polygon created: ' + JSON.stringify(result, null, 1));
 };
 
+const updatePolygon = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+
+  const result = await CapacitorGoogleMaps.updatePolygon({
+    mapId: exampleMapId.value,
+    polygonId: polygonId,
+    preferences: {
+      isClickable: true,
+      strokeWidth: 3,
+      metadata: {someText: 'Updated message'}
+    }
+  });
+  alert('polygon updated: ' + JSON.stringify(result, null, 1));
+};
+
+
 const removePolygon = async () => {
   if (!exampleMapId.value) {
     return;
@@ -352,6 +372,17 @@ const removePolygon = async () => {
     polygonId: polygonId
   });
   alert('polygon removed: ' + JSON.stringify(result, null, 1));
+}
+
+const getPolygon = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+  const result = await CapacitorGoogleMaps.getPolygon({
+    mapId: exampleMapId.value,
+    polygonId: polygonId
+  });
+  alert('get polygon: ' + JSON.stringify(result, null, 1));
 }
 
 const moveCamera = async () => {
