@@ -114,12 +114,21 @@ const startMap = async () => {
       }
     );
 
-      CapacitorGoogleMaps.didTapPolygon(
+    CapacitorGoogleMaps.didTapPolygon(
       {
         mapId: exampleMapId.value,
       },
       (result) => {
         alert('didTapPolygon: ' + JSON.stringify(result, null, 1));
+      }
+    );
+
+    CapacitorGoogleMaps.didTapPolyline(
+      {
+        mapId: exampleMapId.value,
+      },
+      (result) => {
+        alert('didTapPolyline: ' + JSON.stringify(result, null, 1));
       }
     );
 
