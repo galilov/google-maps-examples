@@ -11,6 +11,10 @@
       <CButton @click="updatePolygon">UpdatePolygon</CButton>
       <CButton @click="removePolygon">RemovePolygon</CButton>
       <CButton @click="getPolygon">GetPolygon</CButton>
+      <CButton @click="addPolyline">AddPolyline</CButton>
+      <CButton @click="getPolyline">GetPolyline</CButton>
+      <CButton @click="updatePolyline">UpdatePolyline</CButton>
+      <CButton @click="removePolyline">removePolyline</CButton>
     </div>
   </div>
 </template>
@@ -26,6 +30,7 @@ const exampleMap = ref<InstanceType<typeof HTMLElement> | null>(null);
 
 var markerId = "";
 var polygonId = "";
+var polylineId = "";
 
 const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
@@ -151,13 +156,6 @@ const addMarker = async () => {
 
   const result = await CapacitorGoogleMaps.addMarker({
     mapId: exampleMapId.value,
-    icon: {
-      url: 'https://www.google.com/favicon.ico',
-      targetSizePx: {
-        width: 64,
-        height: 64
-      }
-    },
     position: {
       latitude: -33.86,
       longitude: 151.2,
@@ -165,8 +163,15 @@ const addMarker = async () => {
     preferences: {
       title: 'Some title',
       snippet: 'Some snippet',
+      icon: {
+        url: 'https://www.google.com/favicon.ico',
+        size: {
+          width: 64,
+          height: 64
+        }
+      },
       metadata: {
-        some: 'data',
+        some: 'this is metadata',
       },
     },
   });
@@ -190,16 +195,16 @@ const addCluster = async () => {
         preferences: {
           title: 'Google',
           snippet: 'Some snippet',
+          icon: {
+            url: 'https://www.google.com/favicon.ico',
+            size: {
+              width: 64,
+              height: 64
+            }
+          },
           metadata: {
             some: 'data',
           },
-        },
-        icon: {
-          url: 'https://www.google.com/favicon.ico',
-          targetSizePx: {
-            width: 64,
-            height: 64
-          }
         },
       },
       {
@@ -210,16 +215,16 @@ const addCluster = async () => {
         preferences: {
           title: 'Instagram',
           snippet: 'Some snippet',
+          icon: {
+            url: 'https://www.instagram.com/favicon.ico',
+            size: {
+              width: 64,
+              height: 64
+            }
+          },
           metadata: {
             some: 'data',
           },
-        },
-        icon: {
-          url: 'https://www.instagram.com/favicon.ico',
-          targetSizePx: {
-            width: 64,
-            height: 64
-          }
         },
       },
       {
@@ -230,16 +235,16 @@ const addCluster = async () => {
         preferences: {
           title: 'Facebook',
           snippet: 'Some snippet',
+          icon: {
+            url: 'https://www.facebook.com/favicon.ico',
+            size: {
+              width: 64,
+              height: 64
+            }
+          },
           metadata: {
             some: 'data',
           },
-        },
-        icon: {
-          url: 'https://www.facebook.com/favicon.ico',
-          targetSizePx: {
-            width: 64,
-            height: 64
-          }
         },
       },
       {
@@ -250,16 +255,16 @@ const addCluster = async () => {
         preferences: {
           title: 'BBC',
           snippet: 'TV company',
+          icon: {
+            url: 'https://www.bbc.com/favicon.ico',
+            size: {
+              width: 64,
+              height: 64
+            }
+          },
           metadata: {
             some: 'data',
           },
-        },
-        icon: {
-          url: 'https://www.bbc.com/favicon.ico',
-          targetSizePx: {
-            width: 64,
-            height: 64
-          }
         },
       },
       {
@@ -271,22 +276,22 @@ const addCluster = async () => {
           title: 'The Guardian',
           snippet: 'News',
           anchor: {x: 0.5, y: 0.5},
+          icon: {
+            url: 'https://www.theguardian.com/favicon.ico',
+            size: {
+              width: 128,
+              height: 128
+            }
+          },
           metadata: {
             some: 'data',
           },
         },
-        icon: {
-          url: 'https://www.theguardian.com/favicon.ico',
-          targetSizePx: {
-            width: 128,
-            height: 128
-          }
-        },
       },
     ],
-    clusterIcon: {
+    /*clusterIcon: {
       url: 'http://172.16.0.114/point-of-interest.svg',
-      targetSizePx: {
+      size: {
         width: 128,
         height: 128
       }
@@ -299,7 +304,7 @@ const addCluster = async () => {
       },
       textSize: 16,
       textColor: "#0000FF"
-    }
+    }*/
   });
 
   alert('cluster created: ' + JSON.stringify(result, null, 1));
@@ -362,7 +367,6 @@ const updatePolygon = async () => {
   alert('polygon updated: ' + JSON.stringify(result, null, 1));
 };
 
-
 const removePolygon = async () => {
   if (!exampleMapId.value) {
     return;
@@ -383,6 +387,71 @@ const getPolygon = async () => {
     polygonId: polygonId
   });
   alert('get polygon: ' + JSON.stringify(result, null, 1));
+}
+
+const addPolyline = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+  const result = await CapacitorGoogleMaps.addPolyline({
+    mapId: exampleMapId.value,
+    points: [
+      {latitude:-25.17263, longitude: 62.68250},
+      {latitude: -8.58917, longitude: 74.28406},
+      {latitude: -14.61282, longitude: 78.15125},
+      {latitude: -8.24139, longitude: 82.72156},
+      {latitude: -18.32063, longitude: 93.26843},
+    ],
+    preferences: {
+      isClickable: false,
+      pattern: [{pattern: 'Dash', length: 20}, {pattern: 'Gap', length: 20},],
+      width: 10,
+      color: '#ff0000',
+      metadata: {mydata: 'Hello POLYLINE!'}
+    }
+  });
+  polylineId = result.polyline.polylineId;
+  alert('polyline created: ' + JSON.stringify(result, null, 1));
+};
+
+const getPolyline = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+  const result = await CapacitorGoogleMaps.getPolyline({
+    mapId: exampleMapId.value,
+    polylineId: polylineId
+  });
+  alert('get polyline: ' + JSON.stringify(result, null, 1));
+}
+
+const updatePolyline = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+
+  const result = await CapacitorGoogleMaps.updatePolyline({
+    mapId: exampleMapId.value,
+    polylineId: polylineId,
+    preferences: {
+      isClickable: true,
+      width: 1,
+      color: '#0000ff',
+      metadata: {someText: 'Updated polyline message'}
+    }
+  });
+  alert('polyline updated: ' + JSON.stringify(result, null, 1));
+};
+
+const removePolyline = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+  const result = await CapacitorGoogleMaps.removePolyline({
+    mapId: exampleMapId.value,
+    polylineId: polylineId
+  });
+  alert('polyline removed: ' + JSON.stringify(result, null, 1));
 }
 
 const moveCamera = async () => {
