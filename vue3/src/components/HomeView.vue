@@ -4,8 +4,8 @@
 
     <div class="row gap-4">
       <CButton v-if="!exampleMapId" @click="startMap"> CreateMap </CButton>
-      <CButton @click="addMarker">AddMarker</CButton>
-      <CButton @click="removeMarker">RemoveMarker</CButton>
+      <CButton @click="addCircle">AddCircle</CButton>
+      <CButton @click="getCircle">GetCircle</CButton>
       <CButton @click="addCluster">AddCluster</CButton>
       <CButton @click="addPolygon">AddPolygon</CButton>
       <CButton @click="updatePolygon">UpdatePolygon</CButton>
@@ -31,6 +31,7 @@ const exampleMap = ref<InstanceType<typeof HTMLElement> | null>(null);
 var markerId = "";
 var polygonId = "";
 var polylineId = "";
+var circleId = "";
 
 const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
@@ -396,6 +397,37 @@ const getPolygon = async () => {
     polygonId: polygonId
   });
   alert('get polygon: ' + JSON.stringify(result, null, 1));
+}
+
+const addCircle = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+
+  const result = await CapacitorGoogleMaps.addCircle({
+    mapId: exampleMapId.value,
+    center: {latitude: 45, longitude: 45},
+    radius: 100000,
+    preferences: {
+      isClickable: true,
+      strokePattern: [{pattern: 'Dash', length: 20}, {pattern: 'Gap', length: 20},],
+      strokeWidth: 3,
+      metadata: {someText: 'Hello CIRCLE'}
+    }
+  });
+  circleId = result.circle.circleId;
+  alert('circle created: ' + JSON.stringify(result, null, 1));
+};
+
+const getCircle = async () => {
+  if (!exampleMapId.value) {
+    return;
+  }
+  const result = await CapacitorGoogleMaps.getCircle({
+    mapId: exampleMapId.value,
+    circleId: circleId
+  });
+  alert('get Circle: ' + JSON.stringify(result, null, 1));
 }
 
 const addPolyline = async () => {
