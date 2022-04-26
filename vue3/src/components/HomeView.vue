@@ -328,35 +328,46 @@ const addPolygon = async () => {
   const result = await CapacitorGoogleMaps.addPolygon({
     mapId: exampleMapId.value,
     points: [
-      {latitude: 52.36545, longitude: 4.70995},
-      {latitude: 52.36377, longitude: 4.71648},
-      {latitude: 52.36262, longitude: 4.71510},
-      {latitude: 52.33483, longitude: 4.71322},
-      {latitude: 52.32801, longitude: 4.71407},
-      {latitude: 52.32549, longitude: 4.71047},
-      {latitude: 52.32570, longitude: 4.70583},
+      {latitude: -23.344373454330547, longitude: 114.30080112467083},
+      {latitude: -18.835698392780067, longitude: 121.68361358134968},
+      {latitude: -13.861653304809693, longitude: 126.86916042592173},
+      {latitude: -13.605520021054103, longitude: 127.04494167489028},
+      {latitude: -11.029736250663484, longitude: 130.20900415632406},
+      {latitude: -11.805092096522086, longitude: 136.44923849470737},
+      {latitude: -14.798357688586348, longitude: 135.74611349883318},
+      {latitude: -17.163989735408332, longitude: 139.96486347407827},
+      {latitude: -10.857151647259334, longitude: 142.3379103351536},
+      {latitude: -13.861653304809693, longitude: 144.4472853227761},
+      {latitude: -18.75249389014763, longitude: 146.4687696859144},
+      {latitude: -19.99616591493106, longitude: 148.5781446735369},
+      {latitude: -22.128491318525338, longitude: 150.68751966115943},
+      {latitude: -25.107585835817005, longitude: 152.88478527326626},
+      {latitude: -28.634771032354635, longitude: 153.67580089362468},
+      {latitude: -31.599216872081893, longitude: 152.53322277532916},
+      {latitude: -37.31958582890507, longitude: 149.9843946652853},
+      {latitude: -38.4983983230759, longitude: 147.1718946817886},
+      {latitude: -38.153650818473956, longitude: 140.66798846995243},
+      {latitude: -35.766214712702045, longitude: 138.11916035990853},
+      {latitude: -34.90584424370075, longitude: 135.30666037641183},
+      {latitude: -31.599216872081893, longitude: 131.4394728991039},
+      {latitude: -33.89057188468875, longitude: 123.1777541975823},
+      {latitude: -34.90584424370075, longitude: 118.34376985094735},
+      {latitude: -33.96349903353246, longitude: 115.00392612054499},
+      {latitude: -31.148980062555705, longitude: 115.53126986745065},
+      {latitude: -26.531628708497426, longitude: 113.1582230063753},
     ],
     preferences: {
       isClickable: true,
-      holes: [
-        [
-          {latitude: 52.33752147380871, longitude: 4.709846874581462},
-          {latitude: 52.334971943107575, longitude: 4.71180417415214},
-          {latitude: 52.33342361091616, longitude: 4.710059294689908},
-        ],
-        [
-          {latitude: 52.32817731200254, longitude: 4.708302710330382},
-          {latitude: 52.32827088058939, longitude: 4.7093999677920895},
-          {latitude: 52.32696090236376, longitude: 4.709221344484369},
-          {latitude: 52.3271792347618, longitude: 4.70814960463805},
-        ],
-      ],
       strokePattern: [{pattern: 'Dash', length: 20}, {pattern: 'Gap', length: 20},],
       strokeWidth: 3,
+      patternIcon: {
+        url: 'https://raw.githubusercontent.com/galilov/google-maps-examples/main/1.png',
+        size: {width: 20, height: 20}
+      },
       metadata: {someText: 'Hello'}
     }
   });
-  polygonId = result.polygon.polygonId;
+  polygonId = result.polygon.id;
   alert('polygon created: ' + JSON.stringify(result, null, 1));
 };
 
@@ -367,7 +378,7 @@ const updatePolygon = async () => {
 
   const result = await CapacitorGoogleMaps.updatePolygon({
     mapId: exampleMapId.value,
-    polygonId: polygonId,
+    id: polygonId,
     preferences: {
       isClickable: true,
       strokeWidth: 3,
@@ -383,7 +394,7 @@ const removePolygon = async () => {
   }
   const result = await CapacitorGoogleMaps.removePolygon({
     mapId: exampleMapId.value,
-    polygonId: polygonId
+    id: polygonId
   });
   alert('polygon removed: ' + JSON.stringify(result, null, 1));
 }
@@ -394,7 +405,7 @@ const getPolygon = async () => {
   }
   const result = await CapacitorGoogleMaps.getPolygon({
     mapId: exampleMapId.value,
-    polygonId: polygonId
+    id: polygonId
   });
   alert('get polygon: ' + JSON.stringify(result, null, 1));
 }
@@ -415,7 +426,7 @@ const addCircle = async () => {
       metadata: {someText: 'Hello CIRCLE'}
     }
   });
-  circleId = result.circle.circleId;
+  circleId = result.circle.id;
   alert('circle created: ' + JSON.stringify(result, null, 1));
 };
 
@@ -425,7 +436,7 @@ const getCircle = async () => {
   }
   const result = await CapacitorGoogleMaps.getCircle({
     mapId: exampleMapId.value,
-    circleId: circleId
+    id: circleId
   });
   alert('get Circle: ' + JSON.stringify(result, null, 1));
 }
@@ -451,7 +462,7 @@ const addPolyline = async () => {
       metadata: {mydata: 'Hello POLYLINE!'}
     }
   });
-  polylineId = result.polyline.polylineId;
+  polylineId = result.polyline.id;
   alert('polyline created: ' + JSON.stringify(result, null, 1));
 };
 
@@ -461,7 +472,7 @@ const getPolyline = async () => {
   }
   const result = await CapacitorGoogleMaps.getPolyline({
     mapId: exampleMapId.value,
-    polylineId: polylineId
+    id: polylineId
   });
   alert('get polyline: ' + JSON.stringify(result, null, 1));
 }
@@ -473,7 +484,7 @@ const updatePolyline = async () => {
 
   const result = await CapacitorGoogleMaps.updatePolyline({
     mapId: exampleMapId.value,
-    polylineId: polylineId,
+    id: polylineId,
     preferences: {
       isClickable: true,
       width: 1,
@@ -490,7 +501,7 @@ const removePolyline = async () => {
   }
   const result = await CapacitorGoogleMaps.removePolyline({
     mapId: exampleMapId.value,
-    polylineId: polylineId
+    id: polylineId
   });
   alert('polyline removed: ' + JSON.stringify(result, null, 1));
 }
