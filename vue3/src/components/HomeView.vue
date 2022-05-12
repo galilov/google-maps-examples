@@ -7,14 +7,14 @@
       <!-- <CButton @click="addMarker"> AddMarker </CButton>  -->
       <CButton @click="addMarkers"> AddMarkers (3000) </CButton>
       <CButton @click="moveCamera"> MoveCamera </CButton>
-      <CButton @click="addCircle">AddCircle</CButton>
-      <CButton @click="getCircle">GetCircle</CButton>
-      <CButton @click="addCluster">AddCluster</CButton>
+      <!--<CButton @click="addCircle">AddCircle</CButton>
+      <CButton @click="getCircle">GetCircle</CButton>-->
+      <CButton @click="addCluster">AddCluster</CButton> 
       <CButton @click="addPolygon">AddPolygon</CButton>
-      <CButton @click="updatePolygon">UpdatePolygon</CButton>
+      <!--<CButton @click="updatePolygon">UpdatePolygon</CButton>-->
       <CButton @click="removePolygon">RemovePolygon</CButton>
-      <CButton @click="getPolygon">GetPolygon</CButton>
-      <!--<CButton @click="addPolyline">AddPolyline</CButton>
+      <!--<CButton @click="getPolygon">GetPolygon</CButton>
+      <CButton @click="addPolyline">AddPolyline</CButton>
       <CButton @click="getPolyline">GetPolyline</CButton>
       <CButton @click="updatePolyline">UpdatePolyline</CButton>
       <CButton @click="removePolyline">removePolyline</CButton> -->
@@ -405,7 +405,7 @@ const addPolygon = async () => {
         size: {width: 20, height: 20}
       },
       metadata: {someText: 'Hello'},
-      aboveMarkers: false,
+      aboveMarkers: true,
     }
   });
   polygonId = result.polygon.id;
