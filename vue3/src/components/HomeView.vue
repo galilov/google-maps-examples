@@ -93,6 +93,8 @@ const startMap = async () => {
     // remove background, so map can be seen
     element.style.background = '';
 
+    await CapacitorGoogleMaps.setMarkersBelowPolygonsMode({mapId: exampleMapId.value, enable: true});
+
     alert('map created: ' + JSON.stringify(result, null, 1));
 
     // since we now know the mapId, we can start listening to events
@@ -205,7 +207,7 @@ const addMarkers = async () => {
     markerEntries.push({
       position: {
         latitude: -getRandomArbitrary(30, 35),
-        longitude: getRandomArbitrary(150, 155),
+        longitude: getRandomArbitrary(140, 145),
       },
       preferences: {
         title: 'Some title',
